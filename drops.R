@@ -89,31 +89,31 @@ position.rate <- drops %>% filter(year == 2015) %>% select(pos, drop.rate, flag)
 
 #creating subsets of drops.csv for PHI plotting 
 eagles <- drops %>% filter(team == "PHI")
-eagles.pos <- eagles %>% select(pos, drops, year2) %>% group_by(pos, year2) %>% summarise(drops = sum(drops))
-eagles.rate <- eagles %>% select(pos, drops, drop.rate, year2) %>% group_by(pos, year2) %>% summarise(mean.drop.rate = mean(drop.rate))
-eagles.rate.name <- eagles %>% select(pos, drops, drop.rate, player, year2) %>% group_by(pos, player, year2) %>% summarise(mean.drop.rate = mean(drop.rate))
-eagles.pos.name <- eagles %>% select(pos, drops, player, year2) %>% group_by(pos, player, year2) %>% summarise(drops = sum(drops))
+eagles.pos <- eagles %>% select(pos, drops, year) %>% group_by(pos, year) %>% summarise(drops = sum(drops))
+eagles.rate <- eagles %>% select(pos, drops, drop.rate, year) %>% group_by(pos, year) %>% summarise(mean.drop.rate = mean(drop.rate))
+eagles.rate.name <- eagles %>% select(pos, drops, drop.rate, player, year) %>% group_by(pos, player, year) %>% summarise(mean.drop.rate = mean(drop.rate))
+eagles.pos.name <- eagles %>% select(pos, drops, player, year) %>% group_by(pos, player, year) %>% summarise(drops = sum(drops))
 
 #various PHI plots
-(phi.year <- ggplot(subset(eagles, drops > 0), aes(x=year2, y=drops, fill = year2)) + 
+(phi.year <- ggplot(subset(eagles, drops > 0), aes(x=year, y=drops, fill = year)) + 
   geom_bar(stat = "identity") + scale_fill_manual(values = c("darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen")) + 
   labs(y="Drops\n", x="", title = "PHI Drops per Year\n") + guides(fill=FALSE))
 
-(phi.pos <- ggplot(subset(eagles.pos, drops > 0), aes(x=year2, y=drops, fill = pos)) + 
+(phi.pos <- ggplot(subset(eagles.pos, drops > 0), aes(x=year, y=drops, fill = pos)) + 
   geom_bar(stat = "identity") + scale_fill_manual(values=c("darkgreen", "darkslategray4", "seagreen4")) + 
   labs(y="Drops\n", x="", title = "PHI Drops per Year(by Position)\n") + labs(fill=''))
 
-(phi.pos.rate <- ggplot(subset(eagles.rate, mean.drop.rate > 0), aes(x=year2, y=mean.drop.rate, fill = pos)) + 
+(phi.pos.rate <- ggplot(subset(eagles.rate, mean.drop.rate > 0), aes(x=year, y=mean.drop.rate, fill = pos)) + 
   geom_bar(stat = "identity") + scale_fill_manual(values=c("darkgreen", "darkslategray4", "seagreen4")) + 
   labs(y="Mean Drop Rate\n", x="", title = "PHI Mean Drop Rate per Year (by Position) \n") + labs(fill=''))
 
-(phi.player.name <- ggplot(subset(eagles.pos.name, drops > 0 & year2 == 2015), 
+(phi.player.name <- ggplot(subset(eagles.pos.name, drops > 0 & year == 2015), 
   aes(x=reorder(player, -drops), y=drops, fill = pos)) + geom_bar(stat="identity" )+ 
   scale_fill_manual(values=c("darkgreen", "darkslategray4", "seagreen4")) + 
   labs(x="", y="Drops", title = "2015 PHI Drops per Player\n" ) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + labs(fill=""))
 
-(phi.player.rate <- ggplot(subset(eagles.rate.name, mean.drop.rate > 0 & year2 == 2015), 
+(phi.player.rate <- ggplot(subset(eagles.rate.name, mean.drop.rate > 0 & year == 2015), 
   aes(x=reorder(player, -mean.drop.rate), y=mean.drop.rate, fill = pos)) + geom_bar(stat="identity")+ scale_fill_manual(values=c("darkgreen", 
   "darkslategray4", "seagreen4")) + labs(y="Mean Drop Rate\n", x="", 
   title = "2015 PHI Mean Drop Rate per Player\n") + labs(fill='') + 
