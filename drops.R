@@ -3,16 +3,65 @@
 library(dplyr)
 library(ggplot2)
 library(ggthemes)
+library(rvest)
 
-#load dataset
-drops <- read.csv("C:/Users/GRA/Desktop/Misc/R Working Directory/Other/NFL/nfl_drops/drops.csv")
+#
+#
+#
 
-#format dataset
-drops$rank <- as.numeric(drops$rank)
-drops$recep <- as.numeric(drops$recep)
-drops$drops <- as.numeric(drops$drops)
-drops$targets <- as.numeric(drops$targets)
-drops$year2 <- as.factor(drops$year)
+#scrape data using rvest package
+url.2015 <- "http://www.sportingcharts.com/nfl/stats/drops/2015/"
+url.2014 <- "http://www.sportingcharts.com/nfl/stats/drops/2014/"
+url.2013 <- "http://www.sportingcharts.com/nfl/stats/drops/2013/"
+url.2012 <- "http://www.sportingcharts.com/nfl/stats/drops/2012/"
+url.2011 <- "http://www.sportingcharts.com/nfl/stats/drops/2011/"
+url.2010 <- "http://www.sportingcharts.com/nfl/stats/drops/2010/"
+url.2009 <- "http://www.sportingcharts.com/nfl/stats/drops/2009/"
+
+drops.2015 <- as.data.frame(url.2015 %>% html() %>% html_nodes(xpath = '//*[@id="ff65cc4c2e374d8f806e203f861c0e3d"]') %>% html_table())
+drops.2014 <- as.data.frame(url.2014 %>% html() %>% html_nodes(xpath = '//*[@id="e5a9515a9bd14ea2ae68dbaff926d32f"]') %>% html_table())
+drops.2013 <- as.data.frame(url.2013 %>% html() %>% html_nodes(xpath = '//*[@id="acad99da07164b65bbb80996d24dc00c"]') %>% html_table())
+drops.2012 <- as.data.frame(url.2012 %>% html() %>% html_nodes(xpath = '//*[@id="8fae62b0b21a410fadfd97e32cbc7e54"]') %>% html_table())
+drops.2011 <- as.data.frame(url.2011 %>% html() %>% html_nodes(xpath = '//*[@id="eb32d60dc0164ad8b97e1290e75a1439"]') %>% html_table())
+drops.2010 <- as.data.frame(url.2010 %>% html() %>% html_nodes(xpath = '//*[@id="a9a5c37b083f4eaf9b2a041eaee0fe42"]') %>% html_table())
+drops.2009 <- as.data.frame(url.2009 %>% html() %>% html_nodes(xpath = '//*[@id="f5babb149b6c4719b23215e78c9405a7"]') %>% html_table())
+
+#adds year column to each dataframe
+drops.2015$year <- "2015"
+drops.2014$year <- "2014"
+drops.2013$year <- "2013"
+drops.2012$year <- "2012"
+drops.2011$year <- "2011"
+drops.2010$year <- "2010"
+drops.2009$year <- "2009"
+
+#combines and formats data frames 
+drops <- rbind(drops.2009, drops.2010, drops.2011, drops.2012, drops.2013, drops.2014, drops.2015)
+names(drops) <- tolower(names(drops))
+names(drops)[8] <- "comp.rate"
+names(drops)[9] <- "drop.rate"
+drops$flag <- "Other"
+drops$flag[drops$team == "PHI"] <- "PHI"
+drops$player <- as.factor(drops$player)
+drops$pos <- as.factor(drops$pos)
+drops$team <- as.factor(drops$team)
+drops$year <- as.factor(drops$year)
+drops$flag <- as.factor(drops$flag)
+
+#formats comp.rate and drop.rate to get rid of % sign and set as numeric
+drops$comp.rate <- sub('%$', '', drops$comp.rate)
+drops$drop.rate <- sub('%$', '', drops$drop.rate)
+drops$comp.rate <- as.numeric(drops$comp.rate)
+drops$drop.rate <- as.numeric(drops$drop.rate)
+drops$comp.rate <- drops$comp.rate/100
+drops$drop.rate <- drops$drop.rate/100
+
+#checks structure
+str(drops)
+
+#
+#
+#
 
 #create subsets for plotting
 drops.2015 <- drops %>% filter(year == 2015) %>% select(team, drops, flag) %>% group_by(team, flag) %>% summarise(drops = sum(drops))
