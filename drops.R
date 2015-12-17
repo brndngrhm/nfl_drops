@@ -1,5 +1,5 @@
 
-#load libraries
+#load necessary libraries
 library(dplyr)
 library(ggplot2)
 library(ggthemes)
@@ -87,13 +87,14 @@ position.rate <- drops %>% filter(year == 2015) %>% select(pos, drop.rate, flag)
 + guides(fill=FALSE))
 
 
-#creating subsets of drops.csv for PHI plotting 
+#creating subsets of drops for PHI plotting 
 eagles <- drops %>% filter(team == "PHI")
 eagles.pos <- eagles %>% select(pos, drops, year) %>% group_by(pos, year) %>% summarise(drops = sum(drops))
 eagles.rate <- eagles %>% select(pos, drops, drop.rate, year) %>% group_by(pos, year) %>% summarise(mean.drop.rate = mean(drop.rate))
 eagles.rate.name <- eagles %>% select(pos, drops, drop.rate, player, year) %>% group_by(pos, player, year) %>% summarise(mean.drop.rate = mean(drop.rate))
 eagles.pos.name <- eagles %>% select(pos, drops, player, year) %>% group_by(pos, player, year) %>% summarise(drops = sum(drops))
-
+eagles.scatter <- eagles %>% select(pos, drops, targets, year)
+  
 #various PHI plots
 (phi.year <- ggplot(subset(eagles, drops > 0), aes(x=year, y=drops, fill = year)) + 
   geom_bar(stat = "identity") + scale_fill_manual(values = c("darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen")) + 
@@ -119,5 +120,33 @@ eagles.pos.name <- eagles %>% select(pos, drops, player, year) %>% group_by(pos,
   title = "2015 PHI Mean Drop Rate per Player\n") + labs(fill='') + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)))
 
+(scatter.2009 <- ggplot(subset(drops, team == "PHI" & year == 2009), aes(x=targets, y=drops, color=pos))+ 
+  geom_point(size = 2) + geom_jitter() + 
+  labs(y="Drops\n", x="", title = "2009 PHI Drops per Position\n") + guides(fill=FALSE) + labs(fill=''))
 
+(scatter.2010 <- ggplot(subset(drops, team == "PHI" & year == 2010), aes(x=targets, y=drops, color=pos))+ 
+  geom_point(size = 2) + geom_jitter() + 
+  labs(y="Drops\n", x="", title = "2010 PHI Drops per Position\n") + guides(fill=FALSE) + labs(fill=''))
 
+(scatter.2011 <- ggplot(subset(drops, team == "PHI" & year == 2011), aes(x=targets, y=drops, color=pos))+ 
+  geom_point(size = 2) + geom_jitter() + 
+  labs(y="Drops\n", x="", title = "2011 PHI Drops per Position\n") + guides(fill=FALSE) + labs(fill=''))
+
+(scatter.2012 <- ggplot(subset(drops, team == "PHI" & year == 2012), aes(x=targets, y=drops, color=pos))+ 
+  geom_point(size = 2) + geom_jitter() + 
+  labs(y="Drops\n", x="", title = "2012 PHI Drops per Position\n") + guides(fill=FALSE) + labs(fill=''))
+
+(scatter.2013 <- ggplot(subset(drops, team == "PHI" & year == 2013), aes(x=targets, y=drops, color=pos))+ 
+  geom_point(size = 2) + geom_jitter() + 
+  labs(y="Drops\n", x="", title = "2013 PHI Drops per Position\n") + guides(fill=FALSE) + labs(fill=''))
+
+(scatter.2014 <- ggplot(subset(drops, team == "PHI" & year == 2014), aes(x=targets, y=drops, color=pos))+ 
+  geom_point(size = 2) + geom_jitter() + 
+  labs(y="Drops\n", x="", title = "2014 PHI Drops per Position\n") + guides(fill=FALSE) + labs(fill=''))
+
+(scatter.2015 <- ggplot(subset(drops, team == "PHI" & year == 2015), aes(x=targets, y=drops, color=pos))+ 
+  geom_point(size = 2) + geom_jitter() + 
+  labs(y="Drops\n", x="", title = "2015 PHI Drops per Position\n") + guides(fill=FALSE) + labs(fill=''))
+
+cor(drops$targets, drops$drops)
+cor(eagles$targets, eagles$drops)
