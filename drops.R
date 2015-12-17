@@ -148,5 +148,10 @@ eagles.scatter <- eagles %>% select(pos, drops, targets, year)
   geom_point(size = 2) + geom_jitter() + 
   labs(y="Drops\n", x="", title = "2015 PHI Drops per Position\n") + guides(fill=FALSE) + labs(fill=''))
 
+(targets <- ggplot(eagles, aes(x=year, y=targets, fill=year)) +
+  geom_bar(stat = "identity") + scale_fill_manual(values = c("darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen")) + 
+  labs(y="targets\n", x="", title = "PHI Targets per Year\n") + guides(fill=FALSE))
+
+
 cor(drops$targets, drops$drops)
 cor(eagles$targets, eagles$drops)
