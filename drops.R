@@ -71,24 +71,24 @@ position.rate <- drops %>% filter(year == 2015) %>% select(pos, drop.rate, flag)
 
 #various league-wide plots
 (team.drops <- ggplot(drops.2015, aes(x=reorder(team, -drops), y=drops, fill = flag))
-+ geom_bar(stat = "identity", alpha = .5) + scale_fill_manual(values = c("gray37", "darkgreen")) + labs(x="\nTeam", y="Drops\n", title="Drops per Team (2015 Season)\n")
++ geom_bar(stat = "identity", alpha = .6) + scale_fill_manual(values = c("gray37", "darkgreen")) + labs(x="\nTeam", y="Drops\n", title="Drops per Team (2015 Season)\n")
 + guides(fill=FALSE))
 
 (team.drop.rate <- ggplot(drop.rate.2015, aes(x=reorder(team, -mean.drop.rate), y=mean.drop.rate, fill = flag))
-+ geom_bar(stat = "identity", alpha = .5) + scale_fill_manual(values = c("gray37", "darkgreen")) + labs(x="\nTeam", y="Mean Drop Rate\n", title="Mean Drop Rate per Team (2015 Season)\n")
++ geom_bar(stat = "identity", alpha = .6) + scale_fill_manual(values = c("gray37", "darkgreen")) + labs(x="\nTeam", y="Mean Drop Rate\n", title="Mean Drop Rate per Team (2015 Season)\n")
 + guides(fill=FALSE))
 
 (potition.drops <- ggplot(subset(position, drops>0), aes(x=reorder(pos, -drops), y=drops, fill = pos))
-+ geom_bar(stat = "identity", alpha = .5) + scale_fill_manual(values = c("gray37", "gray37", "gray37")) + labs(x="\nPosition", y="Drops\n", title="Drops per Position (2015 Season)\n")
++ geom_bar(stat = "identity", alpha = .6) + scale_fill_manual(values = c("gray37", "gray37", "gray37")) + labs(x="\nPosition", y="Drops\n", title="Drops per Position (2015 Season)\n")
 + guides(fill=FALSE))
 
 (potition.drop.rate <- ggplot(subset(position.rate, drop.rate>0), aes(x=reorder(pos, -drop.rate), y=drop.rate, fill = pos))
-+ geom_bar(stat = "identity", alpha = .5) + scale_fill_manual(values = c("gray37", "gray37", "gray37")) + labs(x="\nPosition", y="League Wide Mean Drop Rate\n", title="Mean Drop Rate per Position (2015 Season)\n")
++ geom_bar(stat = "identity", alpha = .6) + scale_fill_manual(values = c("gray37", "gray37", "gray37")) + labs(x="\nPosition", y="League Wide Mean Drop Rate\n", title="Mean Drop Rate per Position (2015 Season)\n")
 + guides(fill=FALSE))
 
-(potition.team.drop.rate <- ggplot(subset(position.rate, drop.rate>0 & pos == "RB"), aes(x=pos, y=drop.rate, fill = flag))
-+ geom_bar(stat = "identity", position = "dodge", alpha = .5) + scale_fill_manual(values = c("gray37", "darkgreen"))
-+ labs(x = "", y = "Mean Drop Rate\n", title = "Running Back Drop Rate - NFL Avg. vs Eagles Avg.\n(2015 Season)\n")
+(potition.team.drop.rate <- ggplot(subset(position.rate, drop.rate>0), aes(x=pos, y=drop.rate, fill = flag))
++ geom_bar(stat = "identity", position = "dodge", alpha = .6) + scale_fill_manual(values = c("gray37", "darkgreen"))
++ labs(x = "", y = "Mean Drop Rate\n", title = "Drop Rates - NFL Avg. vs Eagles Avg.\n(2015 Season)\n")
 + guides(fill=FALSE))
 #
 #
@@ -104,31 +104,31 @@ eagles.scatter <- eagles %>% select(pos, drops, targets, year)
   
 #various PHI plots
 (phi.year <- ggplot(subset(eagles, drops > 0), aes(x=year, y=drops, fill = year)) + 
-  geom_bar(stat = "identity", alpha = .5) + scale_fill_manual(values = c("darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen")) + 
+  geom_bar(stat = "identity", alpha = .6) + scale_fill_manual(values = c("darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen")) + 
   labs(y="Drops\n", x="", title = "PHI Drops per Year\n") + guides(fill=FALSE))
 
 (phi.pos <- ggplot(subset(eagles.pos, drops > 0), aes(x=year, y=drops, fill = pos)) + 
-  geom_bar(stat = "identity", alpha = .5) + scale_fill_manual(values=c("darkgreen", "darkslategray4", "seagreen4")) + 
+  geom_bar(stat = "identity", alpha = .6) + scale_fill_manual(values=c("darkgreen", "darkslategray4", "seagreen4")) + 
   labs(y="Drops\n", x="", title = "PHI Drops per Year(by Position)\n") + labs(fill=''))
 
 (phi.pos.rate <- ggplot(subset(eagles.rate, mean.drop.rate > 0), aes(x=year, y=mean.drop.rate, fill = pos)) + 
-  geom_bar(stat = "identity", alpha = .5) + scale_fill_manual(values=c("darkgreen", "darkslategray4", "seagreen4")) + 
+  geom_bar(stat = "identity", alpha = .6) + scale_fill_manual(values=c("darkgreen", "darkslategray4", "seagreen4")) + 
   labs(y="Mean Drop Rate\n", x="", title = "PHI Mean Drop Rate per Year (by Position) \n") + labs(fill=''))
 
 (phi.player.name <- ggplot(subset(eagles.pos.name, drops > 0 & year == 2015), 
-  aes(x=reorder(player, -drops), y=drops, fill = pos)) + geom_bar(stat="identity", alpha = .5)+ 
+  aes(x=reorder(player, -drops), y=drops, fill = pos)) + geom_bar(stat="identity", alpha = .6)+ 
   scale_fill_manual(values=c("darkgreen", "darkslategray4", "seagreen4")) + 
   labs(x="", y="Drops", title = "2015 PHI Drops per Player\n" ) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + labs(fill=""))
 
 (phi.player.rate <- ggplot(subset(eagles.rate.name, mean.drop.rate > 0 & year == 2015), 
-  aes(x=reorder(player, -mean.drop.rate), y=mean.drop.rate, fill = pos)) + geom_bar(stat="identity", alpha = .5)+ scale_fill_manual(values=c("darkgreen", 
+  aes(x=reorder(player, -mean.drop.rate), y=mean.drop.rate, fill = pos)) + geom_bar(stat="identity", alpha = .6)+ scale_fill_manual(values=c("darkgreen", 
   "darkslategray4", "seagreen4")) + labs(y="Mean Drop Rate\n", x="", 
   title = "2015 PHI Mean Drop Rate per Player\n") + labs(fill='') + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)))
 
 (targets <- ggplot(eagles, aes(x=year, y=targets, fill=year)) +
-  geom_bar(stat = "identity", alpha = .5) + scale_fill_manual(values = c("darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen")) + 
+  geom_bar(stat = "identity", alpha = .6) + scale_fill_manual(values = c("darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "darkgreen")) + 
   labs(y="Targets\n", x="", title = "PHI Targets per Year\n") + guides(fill=FALSE))
 
 
