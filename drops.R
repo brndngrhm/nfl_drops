@@ -88,7 +88,7 @@ position.rate <- drops %>% filter(year == 2015) %>% select(pos, drop.rate, flag)
 
 (potition.team.drop.rate <- ggplot(subset(position.rate, drop.rate>0 & pos == "RB"), aes(x=pos, y=drop.rate, fill = flag))
 + geom_bar(stat = "identity", position = "dodge", alpha = .5) + scale_fill_manual(values = c("gray37", "darkgreen"))
-+ labs(x = "", y = "Mean Drop Rate\n", title = "Runningback  Drop Rate - NFL Avg. vs Eagles Avg.\n(2015 Season)\n")
++ labs(x = "", y = "Mean Drop Rate\n", title = "Running Back Drop Rate - NFL Avg. vs Eagles Avg.\n(2015 Season)\n")
 + guides(fill=FALSE))
 #
 #
