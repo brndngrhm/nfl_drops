@@ -1,6 +1,3 @@
-#TEST
-
-
 #load necessary libraries
 library(dplyr)
 library(ggplot2)
